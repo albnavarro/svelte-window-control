@@ -24,7 +24,7 @@ const initFrame = () => {
     requestAnimationFrame(render);
 };
 
-export const addframe = (fn) => {
+export const useFrame = (fn) => {
     callback.push(fn);
     initFrame();
 };

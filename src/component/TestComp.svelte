@@ -3,7 +3,7 @@
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
     import { spring } from 'svelte/motion';
-    import { addframe } from '../store/useFrame.js'
+    import { useFrame } from '../store/RafManages.js'
 
     // Create dispatch event
     const dispatch = createEventDispatcher()
@@ -38,7 +38,7 @@
 
         // React to spring store changes and request animation frame
         const unsuscribe = coords.subscribe(({x,y}) => {
-            addframe(() => {
+            useFrame(() => {
                 element.style.transform = `translate(${x}px, ${y}px)`;
             });
         })
