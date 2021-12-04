@@ -17,7 +17,7 @@
 
     // Get element withouse use bidirection bind and fire update Component
     let element;
-    function Element (node) {
+    const getNode = (node) => {
         element = node;
     }
 
@@ -59,7 +59,7 @@
 
 <svelte:window on:mousemove="{ handleCoords }"/>
 
-<div class="test-component" use:Element style='{compStyle}'>
+<div class="test-component" use:getNode style='{compStyle}'>
     <div  class="circle" style='{circleStyle}'>
         {id}
     </div>
