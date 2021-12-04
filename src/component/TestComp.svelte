@@ -28,9 +28,7 @@
 
     // Set spring value and request animation frame
     const handleCoords = (e) => {
-        addframe(() => {
-            coords.set({ x: e.clientX, y: e.clientY })
-        });
+        coords.set({ x: e.clientX, y: e.clientY })
     }
 
     // Update stle with prop

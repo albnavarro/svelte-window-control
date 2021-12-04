@@ -1,11 +1,17 @@
+<script context="module">
+    function clamp(num, min, max) {
+        return Math.min(Math.max(num, min), max);
+    }
+</script>
+
 <script>
     import TestComp from './component/TestComp.svelte';
 
     let componentList = [];
     let size = 50;
     let opacity = 1;
-    let compId = 0;
     let stiffness = .1;
+    let compId = 0;
 
     const handleAddComponent = () => {
         const newComponent = {
@@ -19,9 +25,10 @@
         }
 
         compId ++
-        size = size + 20;
-        opacity = opacity - .1;
-        stiffness = stiffness - .01;
+        size = clamp(size + 20, 20, 300);
+        opacity = clamp(opacity - .1, .1, 1).toFixed(2);
+        stiffness = clamp(stiffness - 0.01, .05, .1).toFixed(2);
+
         componentList = [...componentList, ...[newComponent]];
     }
 
@@ -48,17 +55,17 @@
 
         <label>
             Size of component
-            <input class="size-btn" type=number bind:value={size} min=10 max=200>
+            <input class="size-btn" type=number bind:value={size}>
         </label>
 
         <label>
             alpha of component
-            <input class="size-btn" type=number bind:value={opacity} step='0.01' in=0 max=1>
+            <input class="size-btn" type=number bind:value={opacity} step='0.01'>
         </label>
 
         <label>
             alpha of stiffness
-            <input class="size-btn" type=number bind:value={stiffness} step='0.01' in=0 max=0.1>
+            <input class="size-btn" type=number bind:value={stiffness} step='0.01'>
         </label>
     </div>
 
