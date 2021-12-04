@@ -16,9 +16,7 @@
 
     // Get element withouse use bidirection bind and fire update Component
     let element;
-    const getNode = (node) => {
-        element = node;
-    }
+    const getNode = (node) => element = node;
 
     // animation caluculator store
     const coords = spring({ x: 0, y: 0 }, {
