@@ -1,7 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte'
     import { onMount } from 'svelte';
-    import { onDestroy } from 'svelte';
     import { afterUpdate } from 'svelte';
     import { spring } from 'svelte/motion';
     import { addframe } from '../store/useFrame.js'
@@ -28,15 +27,10 @@
     });
 
     const handleCoords = (e) => {
-        coords.set({ x: e.clientX, y: e.clientY })
-    }
-
-    // React to store changes and request animation frame
-    const unsuscribe = coords.subscribe(({x,y}) => {
         addframe(() => {
-            element.style.transform = `translate(${x}px, ${y}px)`;
+            coords.set({ x: e.clientX, y: e.clientY })
         });
-    })
+    }
 
     // Update stle with prop
     $: circleStyle = `height:${size}px;width:${size}px;opacity:${opacity};`
@@ -44,16 +38,20 @@
 
     onMount(() => {
 		console.log(`comp ${id} mounted`);
+
+        // React to store changes and request animation frame
+        const unsuscribe = coords.subscribe(({x,y}) => {
+            addframe(() => {
+                element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        })
+
+        return () => unsuscribe;
 	});
 
     afterUpdate(() => {
 		console.log('the component just updated');
 	});
-
-    onDestroy(() => {
-        unsuscribe
-        console.log('the component is being destroyed');
-    })
 
 </script>
 
