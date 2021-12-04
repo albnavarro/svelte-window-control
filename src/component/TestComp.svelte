@@ -26,6 +26,7 @@
         damping: 0.5
     });
 
+    // Set spring value and request animation frame
     const handleCoords = (e) => {
         addframe(() => {
             coords.set({ x: e.clientX, y: e.clientY })
@@ -39,7 +40,7 @@
     onMount(() => {
 		console.log(`comp ${id} mounted`);
 
-        // React to store changes and request animation frame
+        // React to spring store changes and request animation frame
         const unsuscribe = coords.subscribe(({x,y}) => {
             addframe(() => {
                 element.style.transform = `translate(${x}px, ${y}px)`;
