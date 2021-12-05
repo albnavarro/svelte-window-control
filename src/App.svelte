@@ -24,16 +24,20 @@
             }
         }
 
+        componentList = [...componentList, ...[newComponent]];
+
         compId ++
-        size = clamp(size + 20, 20, 300);
+        size = clamp(size + 20, 50, 300);
         opacity = clamp(opacity - .1, .1, 1).toFixed(2);
         stiffness = clamp(stiffness - 0.01, .05, .1).toFixed(2);
-
-        componentList = [...componentList, ...[newComponent]];
     }
 
     const handleRemoveComponent = ({detail : id}) => {
         componentList = componentList.filter((item) => item.props.id !== id)
+    }
+
+    const handleRemovelast = () => {
+        componentList = componentList.filter((item, index) => index < componentList.length - 1);
     }
 
 </script>
@@ -53,25 +57,43 @@
             </button>
         </div>
 
+        <div class="add">
+            <button type="button" class="add-btn" on:click="{() => handleRemovelast()}">
+                remove component
+            </button>
+        </div>
+
         <label>
-            Size of component
-            <input class="size-btn" type=number bind:value={size}>
+            <span>
+                Tot component: {componentList.length}
+            </span>
         </label>
 
         <label>
-            alpha of component
-            <input class="size-btn" type=number bind:value={opacity} step='0.01'>
+            <span>
+                Size: {size}
+            </span>
+            <input class="size-btn" bind:value={size} type="range" min="50" max="300" step="10">
         </label>
 
         <label>
-            alpha of stiffness
-            <input class="size-btn" type=number bind:value={stiffness} step='0.01'>
+            <span>
+                alpha: {opacity}
+            </span>
+            <input class="size-btn" bind:value={opacity} type="range" min="0.1" max="1" step="0.05">
+        </label>
+
+        <label>
+            <span>
+                stiffness: {stiffness}
+            </span>
+            <input class="size-btn" bind:value={stiffness} type="range" min="0.05" max="0.1" step="0.01">
         </label>
     </div>
 
 </main>
 
-<style>
+<style lang="scss">
     .size-btn,
     .add-btn {
         width: 200px;
@@ -81,5 +103,10 @@
         position: fixed;
         top: 30px;
         right: 30px;
+    }
+
+    label span{
+        display: block;
+        margin-top: 20px;
     }
 </style>

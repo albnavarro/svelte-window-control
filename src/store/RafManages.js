@@ -7,7 +7,8 @@ const render = () => {
         return;
     }
 
-    console.log('frame running');
+    console.log('RAF is running');
+
     callback.forEach((item, i) => {
         item();
     });

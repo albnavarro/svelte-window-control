@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
+    import { onDestroy } from 'svelte'
     import { spring } from 'svelte/motion';
     import { useFrame } from '../store/RafManages.js'
 
@@ -26,8 +27,17 @@
 
     // Set spring value and request animation frame
     const handleCoords = (e) => {
-        coords.set({ x: e.clientX, y: e.clientY })
+        useFrame(() => {
+            coords.set({ x: e.clientX, y: e.clientY })
+        });
     }
+
+    // React to spring store changes and request animation frame
+    const unsubscribe = coords.subscribe(({x,y}) => {
+        useFrame(() => {
+            if(element) element.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    })
 
     // Update stle with prop
     $: circleStyle = `height:${size}px;width:${size}px;opacity:${opacity};`
@@ -35,20 +45,13 @@
 
     onMount(() => {
 		console.log(`comp ${id} mounted`);
-
-        // React to spring store changes and request animation frame
-        const unsuscribe = coords.subscribe(({x,y}) => {
-            useFrame(() => {
-                element.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        })
-
-        return () => unsuscribe;
 	});
 
     afterUpdate(() => {
-		console.log('the component just updated');
+		console.log(`comp ${id} jus updated `);
 	});
+
+    onDestroy(unsubscribe);
 
 </script>
 
