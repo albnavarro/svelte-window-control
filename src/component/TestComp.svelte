@@ -2,7 +2,6 @@
     import { createEventDispatcher } from 'svelte'
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
-    import { onDestroy } from 'svelte'
     import { spring } from 'svelte/motion';
     import { useMouseMove } from '../utils/mouseMoveUtils.js'
     import { useFrame } from '../utils/rafUtils.js'
@@ -26,41 +25,43 @@
         damping: 0.5
     });
 
-    // Add call back to mouseMove
-    const unsubscriveMoseMove = useMouseMove(({client}) => {
-        // Set spring value, spring use native Svelte RAF , doasn't need useFrame
-        coords.set({ x: client.x, y: client.y })
-    })
-
-    // React to spring store changes
-    const unsubscribeCoords = coords.subscribe(({x,y}) => {
-        // Test useFrame utils
-        // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
-        // test only
-
-        useFrame(() => {
-            if(element) element.style.transform = `translate(${x}px, ${y}px)`;
-        });
-    })
-
     // Update stle with prop
     $: circleStyle = `height:${size}px;width:${size}px;opacity:${opacity};`
     $: compStyle = `z-index:${50-id};`
 
+
     onMount(() => {
 		console.log(`comp ${id} mounted`);
+
+        // Add call back to mouseMove
+        const unsubscribeMouseMove = useMouseMove(({client}) => {
+            // Set spring value, spring use native Svelte RAF , doasn't need useFrame
+            coords.set({ x: client.x, y: client.y })
+        })
+
+        // React to spring store changes
+        const unsubscribeCoords = coords.subscribe(({x,y}) => {
+            // Test useFrame utils
+            // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
+            // test only
+
+            useFrame(() => {
+                if(element) element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        })
+
+        return (() => {
+            unsubscribeCoords();
+            unsubscribeMouseMove();
+        })
 	});
 
     afterUpdate(() => {
 		console.log(`comp ${id} jus updated `);
 	});
 
-    onDestroy(() => {
-        unsubscribeCoords();
-        unsubscriveMoseMove();
-    });
-
 </script>
+
 
 <div class="test-component" use:getNode style='{compStyle}'>
     <div  class="circle" style='{circleStyle}'>
