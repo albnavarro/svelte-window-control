@@ -4,9 +4,6 @@ let callback = [];
 const render = () => {
     /**
      * if - exit form RAF if callback queque is empty
-     *
-     * @param  {type} callback.length === 0 description
-     * @return {type}                       description
      */
     if (callback.length === 0) {
         inizialized = false;
