@@ -4,7 +4,7 @@
     import { afterUpdate } from 'svelte';
     import { onDestroy } from 'svelte'
     import { spring } from 'svelte/motion';
-    import { useFrame } from '../store/RafManages.js'
+    import { useFrame } from '../store/RafUtils.js'
 
     // Create dispatch event
     const dispatch = createEventDispatcher()
