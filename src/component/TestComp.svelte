@@ -4,8 +4,8 @@
     import { afterUpdate } from 'svelte';
     import { onDestroy } from 'svelte'
     import { spring } from 'svelte/motion';
-    import { useMouseMove } from '../store/mouseMoveUtils.js'
-    import { useFrame } from '../store/rafUtils.js'
+    import { useMouseMove } from '../utils/mouseMoveUtils.js'
+    import { useFrame } from '../utils/rafUtils.js'
 
     // Create dispatch event
     const dispatch = createEventDispatcher()
