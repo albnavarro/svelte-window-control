@@ -16,17 +16,17 @@ export const useMouseMove = (() => {
     let id = 0;
 
     /**
-     * handlerMouseMove - handler for mouse move
+     * handler - handler for mouse move
      *
      * @param  {event} e mouse move event
      * @return {void}   description
      */
-    function handlerMouseMove(e) {
+    function handler(e) {
         /**
          * if - if there is no subscritor remove handler
          */
         if (callback.length === 0) {
-            window.removeEventListener('mousemove', handlerMouseMove);
+            window.removeEventListener('mousemove', handler);
             inizialized = false;
         }
 
@@ -50,19 +50,19 @@ export const useMouseMove = (() => {
     }
 
     /**
-     * initMouseMove - if istener is not inizializad remove it
+     * init - if istener is not inizializad remove it
      *
      * @return {void}
      */
-    function initMouseMove() {
+    function init() {
         if (inizialized) return;
         inizialized = true;
 
-        window.addEventListener('mousemove', handlerMouseMove);
+        window.addEventListener('mousemove', handler);
     }
 
     /**
-     * initMouseMove - add call back to stack
+     * init - add call back to stack
      *
      * @return {function} unsubscribe function
      */
@@ -72,7 +72,7 @@ export const useMouseMove = (() => {
         id++;
 
         if (typeof window !== 'undefined') {
-            initMouseMove();
+            init();
         }
 
         return () => {
