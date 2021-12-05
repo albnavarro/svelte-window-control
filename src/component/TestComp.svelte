@@ -44,7 +44,6 @@
             // Test useFrame utils
             // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
             // test only
-
             useFrame(() => {
                 if(element) element.style.transform = `translate(${x}px, ${y}px)`;
             });
