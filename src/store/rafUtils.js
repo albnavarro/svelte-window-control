@@ -13,7 +13,7 @@ const render = () => {
     /**
      * Ececute callback
      */
-    callback.forEach((item, i) => {
+    callback.forEach((item) => {
         item();
     });
 

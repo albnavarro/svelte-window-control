@@ -4,7 +4,8 @@
     import { afterUpdate } from 'svelte';
     import { onDestroy } from 'svelte'
     import { spring } from 'svelte/motion';
-    import { useFrame } from '../store/RafUtils.js'
+    import { useMouseMove } from '../store/mouseMoveUtils.js'
+    import { useFrame } from '../store/rafUtils.js'
 
     // Create dispatch event
     const dispatch = createEventDispatcher()
@@ -25,13 +26,14 @@
         damping: 0.5
     });
 
-    // Set spring value, spring use native Svelte RAF , doasn't need useFrame
-    const handleCoords = (e) => {
-        coords.set({ x: e.clientX, y: e.clientY })
-    }
+    // Add call back to mouseMove
+    const unsubscriveMoseMove = useMouseMove(({client}) => {
+        // Set spring value, spring use native Svelte RAF , doasn't need useFrame
+        coords.set({ x: client.x, y: client.y })
+    })
 
     // React to spring store changes
-    const unsubscribe = coords.subscribe(({x,y}) => {
+    const unsubscribeCoords = coords.subscribe(({x,y}) => {
 
         // Test useFrame utils
         // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
@@ -53,11 +55,12 @@
 		console.log(`comp ${id} jus updated `);
 	});
 
-    onDestroy(unsubscribe);
+    onDestroy(() => {
+        unsubscribeCoords();
+        unsubscriveMoseMove();
+    });
 
 </script>
-
-<svelte:window on:mousemove="{ handleCoords }"/>
 
 <div class="test-component" use:getNode style='{compStyle}'>
     <div  class="circle" style='{circleStyle}'>
