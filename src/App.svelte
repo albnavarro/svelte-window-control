@@ -24,7 +24,7 @@
             }
         }
 
-        componentList = [...componentList, ...[newComponent]];
+        componentList = [...componentList, newComponent];
 
         compId ++
         size = clamp(size + 20, 50, 300);
