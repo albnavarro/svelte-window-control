@@ -1,51 +1,72 @@
-let mouseMoveInitialized = false;
-let mouseMoveCallback = [];
-let mouseMoveId = 0;
+export const useMouseMove = (() => {
+    let inizialized = false;
+    let callback = [];
+    let id = 0;
 
-function handlerMouseMove(e) {
-    if (mouseMoveCallback.length === 0) {
-        window.removeEventListener('mousemove', handlerMouseMove);
-        mouseMoveInitialized = false;
-    }
+    /**
+     * handlerMouseMove - handler for mouse move
+     *
+     * @param  {event} e mouse move event
+     * @return {void}   description
+     */
+    function handlerMouseMove(e) {
+        /**
+         * if - if there is no subscritor remove handler
+         */
+        if (callback.length === 0) {
+            window.removeEventListener('mousemove', handlerMouseMove);
+            inizialized = false;
+        }
 
-    const { pageX, pageY } = e;
-    const { clientX, clientY } = e;
-    const target = e.target;
+        const { pageX, pageY } = e;
+        const { clientX, clientY } = e;
+        const target = e.target;
 
-    mouseMoveCallback.forEach(({ cb }) => {
-        cb({
-            page: {
-                x: pageX,
-                y: pageY,
-            },
-            client: {
-                x: clientX,
-                y: clientY,
-            },
-            target,
+        callback.forEach(({ cb }) => {
+            cb({
+                page: {
+                    x: pageX,
+                    y: pageY,
+                },
+                client: {
+                    x: clientX,
+                    y: clientY,
+                },
+                target,
+            });
         });
-    });
-}
-
-function initMouseMove() {
-    if (mouseMoveInitialized) return;
-    mouseMoveInitialized = true;
-
-    window.addEventListener('mousemove', handlerMouseMove);
-}
-
-export const useMouseMove = (cb) => {
-    mouseMoveCallback.push({ cb, id: mouseMoveId });
-    const cbId = mouseMoveId;
-    mouseMoveId++;
-
-    if (typeof window !== 'undefined') {
-        initMouseMove();
     }
 
-    return () => {
-        mouseMoveCallback = mouseMoveCallback.filter(
-            (item) => item.id !== cbId
-        );
+    /**
+     * initMouseMove - if istener is not inizializad remove it
+     *
+     * @return {void}
+     */
+    function initMouseMove() {
+        if (inizialized) return;
+        inizialized = true;
+
+        window.addEventListener('mousemove', handlerMouseMove);
+    }
+
+    /**
+     * initMouseMove - add call back to stack
+     *
+     * @return {function} unsubscribe function
+     */
+    const addCb = (cb) => {
+        callback.push({ cb, id: id });
+        const cbId = id;
+        id++;
+
+        if (typeof window !== 'undefined') {
+            initMouseMove();
+        }
+
+        return () => {
+            callback = callback.filter((item) => item.id !== cbId);
+        };
     };
-};
+
+    return addCb;
+})();
