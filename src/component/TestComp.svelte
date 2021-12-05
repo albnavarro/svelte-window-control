@@ -25,15 +25,17 @@
         damping: 0.5
     });
 
-    // Set spring value and request animation frame
+    // Set spring value, spring use native Svelte RAF , doasn't need useFrame
     const handleCoords = (e) => {
-        useFrame(() => {
-            coords.set({ x: e.clientX, y: e.clientY })
-        });
+        coords.set({ x: e.clientX, y: e.clientY })
     }
 
-    // React to spring store changes and request animation frame
+    // React to spring store changes
     const unsubscribe = coords.subscribe(({x,y}) => {
+
+        // Test useFrame utils
+        // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
+        // test only
         useFrame(() => {
             if(element) element.style.transform = `translate(${x}px, ${y}px)`;
         });
