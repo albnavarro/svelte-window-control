@@ -1,3 +1,15 @@
+/**
+ * util to centralize all action in one Request Animation Frame,
+ * All subsciber use the same frame
+ * useFrame run once then delete all subscriber
+ *
+ * @example:
+ * useFrame(() => {
+ *     myFunction()
+ * });
+ *
+ */
+
 export const useFrame = (() => {
     let inizialized = false;
     let callback = [];

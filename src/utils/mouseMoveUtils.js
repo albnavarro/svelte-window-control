@@ -1,3 +1,15 @@
+/**
+ * Utils to centralize mouse move listener, all subscriber use the same listener
+ * First subscriber create a listener, when there are no more listeners the listern is removed
+ *
+ * @example:
+ * onMount(() => {
+ *   const unsubscribe = useMouseMove(({client}) => console.log(client.x));
+ *   return(() => unsubscribe())
+ * }
+ *
+ */
+
 export const useMouseMove = (() => {
     let inizialized = false;
     let callback = [];
