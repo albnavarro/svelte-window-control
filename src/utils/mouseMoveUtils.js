@@ -15,6 +15,9 @@ export const useMouseMove = (() => {
     let callback = [];
     let id = 0;
 
+    const TOUCH = 'TOUCH';
+    const MOUSE = 'MOUSE';
+
     /**
      * handler - handler for mouse move
      *
@@ -27,12 +30,14 @@ export const useMouseMove = (() => {
          */
         if (callback.length === 0) {
             window.removeEventListener('mousemove', handler);
+            window.removeEventListener('touchmove', handler);
             inizialized = false;
         }
 
-        const { pageX, pageY } = e;
-        const { clientX, clientY } = e;
+        const { pageX, pageY } = e.touches ? e.touches[0] : e;
+        const { clientX, clientY } = e.touches ? e.touches[0] : e;
         const target = e.target;
+        const type = e.touches ? TOUCH : MOUSE;
 
         callback.forEach(({ cb }) => {
             cb({
@@ -45,6 +50,7 @@ export const useMouseMove = (() => {
                     y: clientY,
                 },
                 target,
+                type,
             });
         });
     }
@@ -59,6 +65,7 @@ export const useMouseMove = (() => {
         inizialized = true;
 
         window.addEventListener('mousemove', handler);
+        window.addEventListener('touchmove', handler);
     }
 
     /**

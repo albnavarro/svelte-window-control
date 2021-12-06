@@ -63,32 +63,32 @@
             </button>
         </div>
 
-        <label>
+        <div>
             <span>
                 Tot component: {componentList.length}
             </span>
-        </label>
+        </div>
 
-        <label>
+        <div>
             <span>
                 Size: {size}
             </span>
             <input class="size-btn" bind:value={size} type="range" min="50" max="300" step="10">
-        </label>
+        </div>
 
-        <label>
+        <div>
             <span>
                 alpha: {opacity}
             </span>
             <input class="size-btn" bind:value={opacity} type="range" min="0.1" max="1" step="0.05">
-        </label>
+        </div>
 
-        <label>
+        <div>
             <span>
                 stiffness: {stiffness}
             </span>
             <input class="size-btn" bind:value={stiffness} type="range" min="0.05" max="0.1" step="0.01">
-        </label>
+        </div>
     </div>
 
 </main>
@@ -105,7 +105,7 @@
         right: 30px;
     }
 
-    label span{
+    span{
         display: block;
         margin-top: 20px;
     }
