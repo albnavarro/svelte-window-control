@@ -2,6 +2,10 @@
  * Utils to centralize mouse move listener, all subscriber use the same listener
  * First subscriber create a listener, when there are no more listeners the listern is removed
  *
+ * NOTE:
+ * Use it inside onMount function to be sure callback is added after first rendering in case of server side rendering
+ * https://svelte.dev/tutorial/onmount
+ *
  * @example:
  * onMount(() => {
  *   const unsubscribe = useMouseMove(({client}) => console.log(client.x));
