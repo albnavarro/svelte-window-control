@@ -44,7 +44,7 @@
 
 
 <main>
-    {#each componentList as {component, props}, index}
+    {#each componentList as {component, props}, index (props.id)}
         <div class="istances">
             <svelte:component this={component} {...props} on:remove-item="{ handleRemoveComponent }" />
         </div>
