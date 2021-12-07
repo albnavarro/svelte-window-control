@@ -22,8 +22,9 @@ export const useFrame = (() => {
 
     // Get right time if server side or client side
     const getTime = () => {
-        const is_client = typeof window !== 'undefined';
-        return is_client ? window.performance.now() : Date.now();
+        return typeof window !== 'undefined'
+            ? window.performance.now()
+            : Date.now();
     };
 
     const render = () => {
