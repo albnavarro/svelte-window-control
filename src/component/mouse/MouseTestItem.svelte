@@ -35,12 +35,22 @@
     $: compStyle = `z-index:${50 - id};`;
 
     onMount(() => {
-        console.log(`comp ${id} mounted`);
+        // React to spring store changes
+        const unsubscribeCoords = coords.subscribe(({ x, y }) => {
+            // Test useFrame utils
+            // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
+            // test only
+            useFrame(() => {
+                if (element)
+                    element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
 
         // Add call back to mouseMove
         const unsubscribeMouseMove = useMouseMove(({ client, type }) => {
             // Set spring value, spring use native Svelte RAF , doasn't need useFrame
             coords.set({ x: client.x, y: client.y });
+            console.log(type);
         });
 
         // Test
@@ -51,17 +61,6 @@
         // Test
         const unsubscribeMouseUp = useMouseUp(({ client, page, type }) => {
             console.log(type);
-        });
-
-        // React to spring store changes
-        const unsubscribeCoords = coords.subscribe(({ x, y }) => {
-            // Test useFrame utils
-            // Svelte use inernal FAR on spring etcc, so is not necessay other RAF
-            // test only
-            useFrame(() => {
-                if (element)
-                    element.style.transform = `translate(${x}px, ${y}px)`;
-            });
         });
 
         return () => {
