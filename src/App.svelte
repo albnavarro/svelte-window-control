@@ -1,144 +1,45 @@
-<script context="module">
-    function clamp(num, min, max) {
-        return Math.min(Math.max(num, min), max);
+<script>
+    import MouseTester from './component/mouse/MouseTester.svelte';
+    import ScrollTester from './component/scroll/ScrollTester.svelte';
+
+    let mouseCompIsActive = false;
+    let scrollCompIsActive = false;
+
+    function mouseHandler() {
+        mouseCompIsActive = true;
+        scrollCompIsActive = false;
+    }
+
+    function scrollHandler() {
+        mouseCompIsActive = false;
+        scrollCompIsActive = true;
     }
 </script>
 
-<script>
-    import TestComp from './component/TestComp.svelte';
-
-    let componentList = [];
-    let size = 50;
-    let opacity = 1;
-    let stiffness = 0.1;
-    let compId = 0;
-
-    const handleAddComponent = () => {
-        const newComponent = {
-            component: TestComp,
-            props: {
-                size: size,
-                opacity: opacity,
-                stiffness: stiffness,
-                id: compId,
-            },
-        };
-
-        componentList = [...componentList, newComponent];
-
-        compId++;
-        size = clamp(size + 20, 50, 300);
-        opacity = clamp(opacity - 0.1, 0.1, 1).toFixed(2);
-        stiffness = clamp(stiffness - 0.01, 0.05, 0.1).toFixed(2);
-    };
-
-    const handleRemoveComponent = ({ detail: id }) => {
-        componentList = componentList.filter((item) => item.props.id !== id);
-    };
-
-    const handleRemovelast = () => {
-        componentList = componentList.filter(
-            (item, index) => index < componentList.length - 1
-        );
-    };
-</script>
-
 <main>
-    {#each componentList as { component, props }, index (props.id)}
-        <div class="istances">
-            <svelte:component
-                this={component}
-                {...props}
-                on:remove-item={handleRemoveComponent}
-            />
-        </div>
-    {/each}
-
-    <div class="nav">
-        <div class="add">
-            <button
-                type="button"
-                class="add-btn"
-                on:click={() => handleAddComponent()}
-            >
-                add component
-            </button>
-        </div>
-
-        <div class="add">
-            <button
-                type="button"
-                class="add-btn"
-                on:click={() => handleRemovelast()}
-            >
-                remove component
-            </button>
-        </div>
-
-        <div>
-            <span>
-                Tot component: {componentList.length}
-            </span>
-        </div>
-
-        <div>
-            <span>
-                Size: {size}
-            </span>
-            <input
-                class="size-btn"
-                bind:value={size}
-                type="range"
-                min="50"
-                max="300"
-                step="10"
-            />
-        </div>
-
-        <div>
-            <span>
-                alpha: {opacity}
-            </span>
-            <input
-                class="size-btn"
-                bind:value={opacity}
-                type="range"
-                min="0.1"
-                max="1"
-                step="0.05"
-            />
-        </div>
-
-        <div>
-            <span>
-                stiffness: {stiffness}
-            </span>
-            <input
-                class="size-btn"
-                bind:value={stiffness}
-                type="range"
-                min="0.05"
-                max="0.1"
-                step="0.01"
-            />
-        </div>
+    <nav class="nav">
+        <button type="button" on:click={ mouseHandler }>
+            test mouse
+        </button>
+        <button type="button" on:click={ scrollHandler }>
+            scroll test
+        </button>
+    </nav>
+    <div class="components">
+        {#if mouseCompIsActive}
+            <MouseTester/>
+        {/if}
+        {#if scrollCompIsActive}
+            <ScrollTester/>
+        {/if}
     </div>
 </main>
 
 <style lang="scss">
-    .size-btn,
-    .add-btn {
-        width: 200px;
-    }
-
     .nav {
         position: fixed;
-        top: 30px;
-        right: 30px;
-    }
-
-    span {
-        display: block;
-        margin-top: 20px;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 </style>

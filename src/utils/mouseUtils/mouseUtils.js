@@ -34,6 +34,7 @@ export function useMouse(events = []) {
                 window.removeEventListener(item, handler);
             });
             inizialized = false;
+            return;
         }
 
         // Get event type

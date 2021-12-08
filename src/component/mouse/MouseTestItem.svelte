@@ -3,10 +3,10 @@
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
     import { spring } from 'svelte/motion';
-    import { useMouseMove } from '../utils/mouseUtils/mouseMoveUtils.js';
-    import { useMouseDown } from '../utils/mouseUtils/mouseDownUtils.js';
-    import { useMouseUp } from '../utils/mouseUtils/mouseUpUtils.js';
-    import { useFrame } from '../utils/rafUtils.js';
+    import { useMouseMove } from '../../utils/mouseUtils/mouseMoveUtils.js';
+    import { useMouseDown } from '../../utils/mouseUtils/mouseDownUtils.js';
+    import { useMouseUp } from '../../utils/mouseUtils/mouseUpUtils.js';
+    import { useFrame } from '../../utils/rafUtils.js';
 
     // Create dispatch event
     const dispatch = createEventDispatcher();
@@ -45,12 +45,12 @@
 
         // Test
         const unsubscribeMouseDown = useMouseDown(({ client, page, type }) => {
-            console.log(type, `id: ${id}`);
+            console.log(type);
         });
 
         // Test
         const unsubscribeMouseUp = useMouseUp(({ client, page, type }) => {
-            console.log(type, `id: ${id}`);
+            console.log(type);
         });
 
         // React to spring store changes
