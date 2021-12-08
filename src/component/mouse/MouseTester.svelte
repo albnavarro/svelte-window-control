@@ -46,6 +46,13 @@
 </script>
 
 <section>
+    <div class="header">
+        <h1> Centralize window mouseEvent for multiple instances </h1>
+        <p> Detect touch or not and use only one listener for event type </p>
+        <p> Add instance and look at console for event traking </p>
+        <p> Centralize requestAnimationFrame at 60 or custom fps ( only test, native spring doesn't need it) </p>
+    </div>
+
     {#each componentList as { component, props }, index (props.id)}
         <div class="istances">
             <svelte:component
@@ -131,6 +138,19 @@
     .size-btn,
     .add-btn {
         width: 200px;
+    }
+
+    .header {
+        position: fixed;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+
+        :global(p) {
+            margin: 0;
+            padding: 0
+        }
     }
 
     .nav {
