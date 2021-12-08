@@ -48,7 +48,7 @@
 <section>
     <div class="header">
         <h1> Centralize window mouseEvent for multiple instances </h1>
-        <p> Detect touch or not and use only one listener for event type </p>
+        <p> click, mousedown, touchstart, mousemove, touchmove, mouseup, touchend, wheel </p>
         <p> Add instance and look at console for event traking ( omitted log on mousemove and touchmove )</p>
         <p> Centralize requestAnimationFrame at 60 or custom fps ( only test, native spring doesn't need it) </p>
     </div>
