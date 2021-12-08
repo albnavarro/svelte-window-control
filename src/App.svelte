@@ -10,55 +10,67 @@
     let componentList = [];
     let size = 50;
     let opacity = 1;
-    let stiffness = .1;
+    let stiffness = 0.1;
     let compId = 0;
 
     const handleAddComponent = () => {
         const newComponent = {
-            'component': TestComp,
-            'props': {
-                'size': size,
-                'opacity': opacity,
-                'stiffness': stiffness,
-                'id': compId
-            }
-        }
+            component: TestComp,
+            props: {
+                size: size,
+                opacity: opacity,
+                stiffness: stiffness,
+                id: compId,
+            },
+        };
 
         componentList = [...componentList, newComponent];
 
-        compId ++
+        compId++;
         size = clamp(size + 20, 50, 300);
-        opacity = clamp(opacity - .1, .1, 1).toFixed(2);
-        stiffness = clamp(stiffness - 0.01, .05, .1).toFixed(2);
-    }
+        opacity = clamp(opacity - 0.1, 0.1, 1).toFixed(2);
+        stiffness = clamp(stiffness - 0.01, 0.05, 0.1).toFixed(2);
+    };
 
-    const handleRemoveComponent = ({detail : id}) => {
-        componentList = componentList.filter((item) => item.props.id !== id)
-    }
+    const handleRemoveComponent = ({ detail: id }) => {
+        componentList = componentList.filter((item) => item.props.id !== id);
+    };
 
     const handleRemovelast = () => {
-        componentList = componentList.filter((item, index) => index < componentList.length - 1);
-    }
-
+        componentList = componentList.filter(
+            (item, index) => index < componentList.length - 1
+        );
+    };
 </script>
 
-
 <main>
-    {#each componentList as {component, props}, index (props.id)}
+    {#each componentList as { component, props }, index (props.id)}
         <div class="istances">
-            <svelte:component this={component} {...props} on:remove-item="{ handleRemoveComponent }" />
+            <svelte:component
+                this={component}
+                {...props}
+                on:remove-item={handleRemoveComponent}
+            />
         </div>
     {/each}
 
     <div class="nav">
         <div class="add">
-            <button type="button" class="add-btn" on:click="{() => handleAddComponent()}">
+            <button
+                type="button"
+                class="add-btn"
+                on:click={() => handleAddComponent()}
+            >
                 add component
             </button>
         </div>
 
         <div class="add">
-            <button type="button" class="add-btn" on:click="{() => handleRemovelast()}">
+            <button
+                type="button"
+                class="add-btn"
+                on:click={() => handleRemovelast()}
+            >
                 remove component
             </button>
         </div>
@@ -73,24 +85,44 @@
             <span>
                 Size: {size}
             </span>
-            <input class="size-btn" bind:value={size} type="range" min="50" max="300" step="10">
+            <input
+                class="size-btn"
+                bind:value={size}
+                type="range"
+                min="50"
+                max="300"
+                step="10"
+            />
         </div>
 
         <div>
             <span>
                 alpha: {opacity}
             </span>
-            <input class="size-btn" bind:value={opacity} type="range" min="0.1" max="1" step="0.05">
+            <input
+                class="size-btn"
+                bind:value={opacity}
+                type="range"
+                min="0.1"
+                max="1"
+                step="0.05"
+            />
         </div>
 
         <div>
             <span>
                 stiffness: {stiffness}
             </span>
-            <input class="size-btn" bind:value={stiffness} type="range" min="0.05" max="0.1" step="0.01">
+            <input
+                class="size-btn"
+                bind:value={stiffness}
+                type="range"
+                min="0.05"
+                max="0.1"
+                step="0.01"
+            />
         </div>
     </div>
-
 </main>
 
 <style lang="scss">
@@ -105,7 +137,7 @@
         right: 30px;
     }
 
-    span{
+    span {
         display: block;
         margin-top: 20px;
     }
