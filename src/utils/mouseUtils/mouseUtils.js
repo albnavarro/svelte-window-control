@@ -1,7 +1,7 @@
 import { normalizeWheel } from './normalizeWhell.js';
 
 /**
- * Utils to centralize mouse move listener, all subscriber use the same listener
+ * Utils to centralize mouse listener, all subscriber use the same listener
  * First subscriber create a listener, when there are no more listeners the listern is removed
  *
  * NOTE:

@@ -6,6 +6,7 @@
     import { useMouseMove } from '../../utils/mouseUtils/mouseMoveUtils.js';
     import { useMouseDown } from '../../utils/mouseUtils/mouseDownUtils.js';
     import { useMouseUp } from '../../utils/mouseUtils/mouseUpUtils.js';
+    import { useMouseClick } from '../../utils/mouseUtils/mouseClickUtils.js';
     import { useMouseWheel } from '../../utils/mouseUtils/mouseWheelUtils.js';
     import { useFrame } from '../../utils/rafUtils.js';
 
@@ -69,6 +70,11 @@
             console.log(type);
         });
 
+        // Test
+        const unsubscribeMouseClick = useMouseClick(({ type }) => {
+            console.log(type);
+        });
+
 
         return () => {
             unsubscribeCoords();
@@ -76,6 +82,7 @@
             unsubscribeMouseDown();
             unsubscribeMouseUp();
             unsubscribeMouseWheel();
+            unsubscribeMouseClick();
         };
     });
 
