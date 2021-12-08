@@ -3,11 +3,14 @@
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
     import { spring } from 'svelte/motion';
-    import { useMouseMove } from '../../utils/mouseUtils/mouseMoveUtils.js';
-    import { useMouseDown } from '../../utils/mouseUtils/mouseDownUtils.js';
-    import { useMouseUp } from '../../utils/mouseUtils/mouseUpUtils.js';
-    import { useMouseClick } from '../../utils/mouseUtils/mouseClickUtils.js';
-    import { useMouseWheel } from '../../utils/mouseUtils/mouseWheelUtils.js';
+    import { useMouseClick } from '../../utils/mouseUtils/useMouse.js';
+    import { useMouseDown } from '../../utils/mouseUtils/useMouse.js';
+    import { useTouchStart } from '../../utils/mouseUtils/useMouse.js';
+    import { useMouseMove } from '../../utils/mouseUtils/useMouse.js';
+    import { useTouchMove } from '../../utils/mouseUtils/useMouse.js';
+    import { useMouseUp } from '../../utils/mouseUtils/useMouse.js';
+    import { useTouchEnd } from '../../utils/mouseUtils/useMouse.js';
+    import { useMouseWheel } from '../../utils/mouseUtils/useMouse.js';
     import { useFrame } from '../../utils/rafUtils.js';
 
     // Create dispatch event
@@ -52,7 +55,12 @@
         const unsubscribeMouseMove = useMouseMove(({ client, type }) => {
             // Set spring value, spring use native Svelte RAF , doasn't need useFrame
             coords.set({ x: client.x, y: client.y });
-            console.log(type);
+        });
+
+        // Add call back to mouseMove
+        const unsubscribeTouchMove = useTouchMove(({ client, type }) => {
+            // Set spring value, spring use native Svelte RAF , doasn't need useFrame
+            coords.set({ x: client.x, y: client.y });
         });
 
         // Test
@@ -61,7 +69,17 @@
         });
 
         // Test
+        const unsubscribeTouchStart = useTouchStart(({ type }) => {
+            console.log(type);
+        });
+
+        // Test
         const unsubscribeMouseUp = useMouseUp(({ type }) => {
+            console.log(type);
+        });
+
+        // Test
+        const unsubscribeTouchEnd = useTouchEnd(({ type }) => {
             console.log(type);
         });
 
@@ -79,8 +97,11 @@
         return () => {
             unsubscribeCoords();
             unsubscribeMouseMove();
+            unsubscribeTouchMove();
             unsubscribeMouseDown();
+            unsubscribeTouchStart();
             unsubscribeMouseUp();
+            unsubscribeTouchEnd();
             unsubscribeMouseWheel();
             unsubscribeMouseClick();
         };

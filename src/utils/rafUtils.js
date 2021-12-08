@@ -1,12 +1,20 @@
 /**
- * util to centralize all action in one Request Animation Frame,
+ * Utils to centralize all action form all components in one Request Animation Frame,
  * All subsciber use the same frame
  * useFrame run once then delete all subscriber
+ * Use inside a loop or inside eventListener like scroll or mousemove
  *
  * @example:
+ *
+ * Default 60fps
  * useFrame(() => {
  *     myFunction()
  * });
+ *
+ * Custom fps
+ * useFrame(() => {
+ *     myFunction()
+ * }, 20);
  *
  */
 

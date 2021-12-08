@@ -16,7 +16,7 @@ import { normalizeWheel } from './normalizeWhell.js';
  *
  */
 
-export function useMouse(events = []) {
+function useMouse(event) {
     let inizialized = false;
     let callback = [];
     let id = 0;
@@ -32,9 +32,10 @@ export function useMouse(events = []) {
          * if - if there is no subscritor remove handler
          */
         if (callback.length === 0) {
-            events.forEach((item, i) => {
-                window.removeEventListener(item, handler);
+            window.removeEventListener(event, handler, {
+                passive: false,
             });
+
             inizialized = false;
             return;
         }
@@ -77,7 +78,7 @@ export function useMouse(events = []) {
             },
             target,
             type,
-            preventDefault: () => e.preventDefault()
+            preventDefault: () => e.preventDefault(),
         };
 
         // Add spin value if is wheel event
@@ -100,10 +101,8 @@ export function useMouse(events = []) {
         if (inizialized) return;
         inizialized = true;
 
-        events.forEach((item, i) => {
-            window.addEventListener(item, handler, {
-                passive: false,
-            });
+        window.addEventListener(event, handler, {
+            passive: false,
         });
     }
 
@@ -128,3 +127,12 @@ export function useMouse(events = []) {
 
     return addCb;
 }
+
+export const useMouseClick = new useMouse(['click']);
+export const useMouseDown = new useMouse(['mousedown']);
+export const useTouchStart = new useMouse(['touchstart']);
+export const useMouseMove = new useMouse(['mousemove']);
+export const useTouchMove = new useMouse(['touchmove']);
+export const useMouseUp = new useMouse(['mouseup']);
+export const useTouchEnd = new useMouse(['touchend']);
+export const useMouseWheel = new useMouse(['wheel']);
