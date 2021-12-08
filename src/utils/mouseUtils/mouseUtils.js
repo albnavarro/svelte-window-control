@@ -14,13 +14,10 @@
  *
  */
 
-export const useMouseMove = (() => {
+export function useMouse(events = []) {
     let inizialized = false;
     let callback = [];
     let id = 0;
-
-    const TOUCH = 'TOUCH';
-    const MOUSE = 'MOUSE';
 
     /**
      * handler - handler for mouse move
@@ -33,15 +30,38 @@ export const useMouseMove = (() => {
          * if - if there is no subscritor remove handler
          */
         if (callback.length === 0) {
-            window.removeEventListener('mousemove', handler);
-            window.removeEventListener('touchmove', handler);
+            events.forEach((item, i) => {
+                window.removeEventListener(item, handler);
+            });
             inizialized = false;
         }
 
-        const { pageX, pageY } = e.touches ? e.touches[0] : e;
-        const { clientX, clientY } = e.touches ? e.touches[0] : e;
+        // Get event type
+        const type = e.type
+
+        // Get page coord
+        const { pageX, pageY } = (() => {
+
+            // 'touchend'
+            if (type === 'touchend' && e.changedTouches)
+                return e.changedTouches[0];
+
+            // 'mousedown', 'touchstart', 'mousemove', 'touchmove', 'mouseup'
+            return e.touches ? e.touches[0] : e;
+        })();
+
+        // Get client coord
+        const { clientX, clientY } = (() => {
+            // 'touchend'
+            if (type === 'touchend' && e.changedTouches)
+                return e.changedTouches[0];
+
+            // 'mousedown', 'touchstart', 'mousemove', 'touchmove', 'mouseup'
+            return e.touches ? e.touches[0] : e;
+        })();
+
+        // Get target
         const target = e.target;
-        const type = e.touches ? TOUCH : MOUSE;
 
         callback.forEach(({ cb }) => {
             cb({
@@ -68,8 +88,9 @@ export const useMouseMove = (() => {
         if (inizialized) return;
         inizialized = true;
 
-        window.addEventListener('mousemove', handler);
-        window.addEventListener('touchmove', handler);
+        events.forEach((item, i) => {
+            window.addEventListener(item, handler);
+        });
     }
 
     /**
@@ -92,4 +113,4 @@ export const useMouseMove = (() => {
     };
 
     return addCb;
-})();
+}

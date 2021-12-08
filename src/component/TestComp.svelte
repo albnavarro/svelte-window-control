@@ -3,7 +3,9 @@
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
     import { spring } from 'svelte/motion';
-    import { useMouseMove } from '../utils/mouseMoveUtils.js';
+    import { useMouseMove } from '../utils/mouseUtils/mouseMoveUtils.js';
+    import { useMouseDown } from '../utils/mouseUtils/mouseDownUtils.js';
+    import { useMouseUp } from '../utils/mouseUtils/mouseUpUtils.js';
     import { useFrame } from '../utils/rafUtils.js';
 
     // Create dispatch event
@@ -36,9 +38,19 @@
         console.log(`comp ${id} mounted`);
 
         // Add call back to mouseMove
-        const unsubscribeMouseMove = useMouseMove(({ client }) => {
+        const unsubscribeMouseMove = useMouseMove(({ client, type }) => {
             // Set spring value, spring use native Svelte RAF , doasn't need useFrame
             coords.set({ x: client.x, y: client.y });
+        });
+
+        // Test
+        const unsubscribeMouseDown = useMouseDown(({ client, page, type }) => {
+            console.log(type, `id: ${id}`);
+        });
+
+        // Test
+        const unsubscribeMouseUp = useMouseUp(({ client, page, type }) => {
+            console.log(type, `id: ${id}`);
         });
 
         // React to spring store changes
@@ -55,6 +67,8 @@
         return () => {
             unsubscribeCoords();
             unsubscribeMouseMove();
+            unsubscribeMouseDown();
+            unsubscribeMouseUp();
         };
     });
 
