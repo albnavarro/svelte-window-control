@@ -6,6 +6,7 @@
     import { useMouseMove } from '../../utils/mouseUtils/mouseMoveUtils.js';
     import { useMouseDown } from '../../utils/mouseUtils/mouseDownUtils.js';
     import { useMouseUp } from '../../utils/mouseUtils/mouseUpUtils.js';
+    import { useMouseWheel } from '../../utils/mouseUtils/mouseWheelUtils.js';
     import { useFrame } from '../../utils/rafUtils.js';
 
     // Create dispatch event
@@ -54,20 +55,27 @@
         });
 
         // Test
-        const unsubscribeMouseDown = useMouseDown(({ client, page, type }) => {
+        const unsubscribeMouseDown = useMouseDown(({ type }) => {
             console.log(type);
         });
 
         // Test
-        const unsubscribeMouseUp = useMouseUp(({ client, page, type }) => {
+        const unsubscribeMouseUp = useMouseUp(({ type }) => {
             console.log(type);
         });
+
+        // Test
+        const unsubscribeMouseWheel = useMouseWheel(({ type }) => {
+            console.log(type);
+        });
+
 
         return () => {
             unsubscribeCoords();
             unsubscribeMouseMove();
             unsubscribeMouseDown();
             unsubscribeMouseUp();
+            unsubscribeMouseWheel();
         };
     });
 

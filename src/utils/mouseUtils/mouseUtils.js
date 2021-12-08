@@ -1,3 +1,5 @@
+import { normalizeWheel } from './normalizeWhell.js';
+
 /**
  * Utils to centralize mouse move listener, all subscriber use the same listener
  * First subscriber create a listener, when there are no more listeners the listern is removed
@@ -38,11 +40,10 @@ export function useMouse(events = []) {
         }
 
         // Get event type
-        const type = e.type
+        const type = e.type;
 
         // Get page coord
         const { pageX, pageY } = (() => {
-
             // 'touchend'
             if (type === 'touchend' && e.changedTouches)
                 return e.changedTouches[0];
@@ -64,19 +65,29 @@ export function useMouse(events = []) {
         // Get target
         const target = e.target;
 
+        // Prepare data to callback
+        const mouseData = {
+            page: {
+                x: pageX,
+                y: pageY,
+            },
+            client: {
+                x: clientX,
+                y: clientY,
+            },
+            target,
+            type,
+            preventDefault: () => e.preventDefault()
+        };
+
+        // Add spin value if is wheel event
+        if (type === 'wheel') {
+            const { spinX, spinY, pixelX, pixelY } = normalizeWheel(e);
+            Object.assign(mouseData, { spinX, spinY, pixelX, pixelY });
+        }
+
         callback.forEach(({ cb }) => {
-            cb({
-                page: {
-                    x: pageX,
-                    y: pageY,
-                },
-                client: {
-                    x: clientX,
-                    y: clientY,
-                },
-                target,
-                type,
-            });
+            cb(mouseData);
         });
     }
 
@@ -90,7 +101,9 @@ export function useMouse(events = []) {
         inizialized = true;
 
         events.forEach((item, i) => {
-            window.addEventListener(item, handler);
+            window.addEventListener(item, handler, {
+                passive: false,
+            });
         });
     }
 
