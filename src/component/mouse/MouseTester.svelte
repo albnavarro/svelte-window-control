@@ -41,16 +41,23 @@
             (item, index) => index < componentList.length - 1
         );
     };
-
-
 </script>
 
 <section>
     <div class="header">
-        <h1> Centralize window mouseEvent for multiple instances </h1>
-        <p> click, mousedown, touchstart, mousemove, touchmove, mouseup, touchend, wheel </p>
-        <p> Add instance and look at console for event traking ( omitted log on mousemove and touchmove )</p>
-        <p> Centralize requestAnimationFrame at 60 or custom fps ( only test, native spring doesn't need it) </p>
+        <h1>Centralize window mouseEvent for multiple instances</h1>
+        <p>
+            click, mousedown, touchstart, mousemove, touchmove, mouseup,
+            touchend, wheel
+        </p>
+        <p>
+            Add instance and look at console for event traking ( omitted log on
+            mousemove and touchmove )
+        </p>
+        <p>
+            Centralize requestAnimationFrame at 60 or custom fps ( only test,
+            native spring doesn't need it)
+        </p>
     </div>
 
     {#each componentList as { component, props }, index (props.id)}
@@ -149,7 +156,7 @@
 
         :global(p) {
             margin: 0;
-            padding: 0
+            padding: 0;
         }
     }
 
