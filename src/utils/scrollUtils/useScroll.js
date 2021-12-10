@@ -24,7 +24,6 @@ export const useScroll = (() => {
     let val = window.pageYOffset;
     let direction = DOWN;
 
-
     /**
      * handler - handler for mouse move
      *
@@ -43,15 +42,14 @@ export const useScroll = (() => {
         }
 
         prev = val;
-        val = window.pageYOffset
+        val = window.pageYOffset;
         direction = val > prev ? DOWN : UP;
 
         // Prepare data to callback
         const scrollData = {
             scrolY: val,
-            direction
+            direction,
         };
-
 
         callback.forEach(({ cb }) => {
             cb(scrollData);
@@ -92,4 +90,4 @@ export const useScroll = (() => {
     };
 
     return addCb;
-})()
+})();

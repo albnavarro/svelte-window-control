@@ -1,9 +1,10 @@
 <script>
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { useScroll } from '../../utils/scrollutils/useScroll.js';
-    import { useScrollEnd } from '../../utils/scrollutils/useScrollUtils.js';
-    import { useScrollStart } from '../../utils/scrollutils/useScrollUtils.js';
+    import { useScroll } from '../../utils/scrollUtils/useScroll.js';
+    import { useScrollEnd } from '../../utils/scrollUtils/useScrollUtils.js';
+    import { useScrollStart } from '../../utils/scrollUtils/useScrollUtils.js';
+    import { useResize } from '../../utils/resizeUtils/useResize.js';
 
     export let id = 0;
 
@@ -14,7 +15,7 @@
         const unsubscribeScrollStart = useScrollStart(({scrolY}) => {
             console.log('start scroll at', scrolY);
         });
-        
+
         const unsubscribeScroll = useScroll(({scrolY, direction}) => {
             console.log(scrolY,direction);
         });
@@ -23,10 +24,15 @@
             console.log('end scroll at', scrolY);
         });
 
+        const unsubscribeResize = useResize(({scrolY, windowsHeight, windowsWidth, documentHeight}) => {
+            console.log('resize', scrolY, windowsHeight, windowsWidth, documentHeight);
+        });
+
         return() => {
             unsubscribeScroll();
             unsubscribeScrollEnd();
             unsubscribeScrollStart();
+            unsubscribeResize();
         };
     });
 

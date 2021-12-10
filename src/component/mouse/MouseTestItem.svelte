@@ -11,7 +11,7 @@
     import { useMouseUp } from '../../utils/mouseUtils/useMouse.js';
     import { useTouchEnd } from '../../utils/mouseUtils/useMouse.js';
     import { useMouseWheel } from '../../utils/mouseUtils/useMouse.js';
-    import { useFrame } from '../../utils/rafUtils.js';
+    import { useFrame } from '../../utils/rafutils/rafUtils.js';
 
     // Create dispatch event
     const dispatch = createEventDispatcher();
