@@ -36,7 +36,13 @@
 
 <section>
     <div class="header">
-        test
+        <h1>Centralize window scrollEvent for multiple instances</h1>
+        <p>
+            scroll, scrollStart, scrollEnd
+        </p>
+        <p>
+            Add and remove component, then scroll until first component and watch in console debug for ever instance
+        </p>
     </div>
 
     {#each componentList as { component, props }, index (props.id)}
@@ -83,7 +89,7 @@
         margin-top: 150vh;
         min-height: 1px;
     }
-    
+
     .add-btn {
         width: 200px;
     }
