@@ -32,9 +32,7 @@ function useMouse(event) {
          * if - if there is no subscritor remove handler
          */
         if (callback.length === 0) {
-            window.removeEventListener(event, handler, {
-                passive: false,
-            });
+            window.removeEventListener(event, handler);
 
             inizialized = false;
             return;
