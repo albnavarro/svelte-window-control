@@ -23,7 +23,7 @@ export const useFrame = (() => {
     let callback = [];
 
     // Get 60 fps per seconds
-    let framRate = 60;
+    let framRate = null;
     let now;
     let then;
     let fpsInterval = 1000 / framRate;
@@ -49,11 +49,15 @@ export const useFrame = (() => {
         const elapsed = now - then;
 
         // If 60 fps
-        if (elapsed > fpsInterval) {
+        if (elapsed > fpsInterval && framRate) {
             then = now - (elapsed % fpsInterval);
             /**
              * Ececute callback
              */
+            callback.forEach((item) => {
+                item();
+            });
+        } else if (!framRate){
             callback.forEach((item) => {
                 item();
             });
@@ -84,7 +88,7 @@ export const useFrame = (() => {
     /**
      *  Add callback
      */
-    const addCb = (cb, fps = 60) => {
+    const addCb = (cb, fps = null) => {
         framRate = fps;
         fpsInterval = 1000 / framRate;
         callback.push(cb);
